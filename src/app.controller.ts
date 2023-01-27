@@ -1,18 +1,18 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('products')
-  getProducts(
-    @Query('limit') limit: number,
-    @Query('offset') offset: number,
-    @Query('brand') brand: string,
-  ) {
-    return `products: limit=> ${limit} offset=> ${offset} brand=>${brand}`;
+  @Post('product')
+  createProducto(@Body() body: any): any {
+    return {
+      name: body.name,
+      price: body.price,
+    };
   }
+
   @Get()
   getHello(): string {
     return 'hola mundo1';
@@ -25,15 +25,5 @@ export class AppController {
   @Get('/ruta/')
   newEndponit2() {
     return 'hola mundo 2';
-  }
-
-  @Get('products/:productId')
-  getProduct(@Param('productId') productId: string) {
-    return `product ${productId}`;
-  }
-
-  @Get('categories/:id/products/:productId')
-  getCategory(@Param('productId') productId: string, @Param('id') id: string) {
-    return `product ${productId} and ${id}`;
   }
 }
