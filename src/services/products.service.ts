@@ -40,9 +40,17 @@ export class ProductsService {
       Message: 'removed product ',
     };
   }
-  // update product //
-  update(id: number, payload: any) {
-    const updateProduct = this.products.find((item) => item.description)
 
+  update(id: number, payload: any) {
+    const product = this.findOne(id);
+    if (product) {
+      const index = this.products.findIndex((item) => item.id === id);
+      this.products[index] = {
+        ...product,
+        ...payload,
+      };
+      return this.products[index];
+    }
+    return null;
   }
 }
